@@ -1,4 +1,5 @@
-FROM alpine:edge
+FROM debian:unstable-slim
+ENV DEBIAN_FRONTEND=noninteractive
 COPY . .
-RUN apk add --no-cache bash x11vnc xvfb dbus-x11 net-tools xdm xterm ca-certificates fluxbox ffmpeg chromium geany python3 py3-pip; chmod +x noVNC/utils/novnc_proxy; chmod +x noVNC/utils/websockify/run; chmod +x run.sh; chmod +x cr
-CMD /run.sh
+RUN apt update && apt install -y --no-install-recommends expect bash fluxbox net-tools supervisor x11vnc xvfb xterm chromium geany procps git; apt clean && apt autoremove -y; rm -rf /var/lib/apt/lists/*; chmod +x noVNC/utils/novnc_proxy; chmod +x noVNC/utils/websockify/run; chmod +x supervisor.sh; chmod +x cr
+CMD /supervisor.sh
